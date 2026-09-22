@@ -83,10 +83,10 @@ module "core_values" {
   version = "~> 0.4"
 
   core_state = {
-    resource_group_name  = "dx-d-itn-tfstate-rg-01"
-    storage_account_name = "dxditntfstatest01"
+    resource_group_name  = "dx-u-itn-tfstate-rg-01"
+    storage_account_name = "dxuitntfstatest01"
     container_name       = "terraform-state"
-    key                  = "dx.core.dev.tfstate"
+    key                  = "dx.core.uat.tfstate"
   }
 }
 ```
@@ -201,6 +201,13 @@ repository = {
   name  = "my-repository"    # Repository name
 }
 ```
+
+The module reads the numeric owner and repository IDs from GitHub and creates
+federated identity credentials for **both** subject formats: the name-based one
+used by repositories created before **2026-07-15** and the immutable one
+(`repo:OWNER@OWNER-ID/REPO@REPO-ID:environment:...`) used by repositories created
+or renamed after that date. The credentials are additive, so each repository
+matches exactly one of them regardless of when it was created.
 
 #### `github_private_runner`
 
@@ -442,12 +449,19 @@ This module includes practical examples to help you get started quickly:
 | Name | Type |
 | ---- | ---- |
 | [azurerm_federated_identity_credential.github_app_cd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_app_cd_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.github_app_ci](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_app_ci_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.github_automation_cd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_automation_cd_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.github_infra_cd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_infra_cd_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.github_infra_ci](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_infra_ci_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.github_opex_cd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_opex_cd_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.github_opex_ci](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
+| [azurerm_federated_identity_credential.github_opex_ci_immutable](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.admins_group_rgs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.admins_group_rgs_kv_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
@@ -497,6 +511,8 @@ This module includes practical examples to help you get started quickly:
 | [azurerm_role_definition.dx_infra_ci_resource_groups](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/role_definition) | data source |
 | [azurerm_role_definition.dx_infra_ci_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/role_definition) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [github_organization.owner](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/organization) | data source |
+| [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/repository) | data source |
 
 ## Inputs
 
